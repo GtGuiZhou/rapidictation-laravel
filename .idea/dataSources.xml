@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="supercrud" uuid="fb47ae46-b0e3-4f09-8d38-9aa0a1561996">
+    <data-source source="LOCAL" name="Rapidictation" uuid="2cd58600-60a9-4a4f-ae2f-06d9e81493ad">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/supercrud</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/rapidictation</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="CONVERT_TO_NULL" />
