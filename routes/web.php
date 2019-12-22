@@ -24,6 +24,10 @@ function fastCrudRouter($routerName,$controller){
     Route::put("$routerName/{id}","$controller@edit");
 }
 
-Route::prefix('admin')->group(function () {
+Route::post('admin/admins/login', 'Admin\Admin@login');
+Route::prefix('admin')
+    ->middleware('auth:admin')// 注意要区分不同模块的用户
+    ->group(function () {
+    Route::put('admins/logout', 'Admin\Admin@logout');
     fastCrudRouter('admins',"Admin\Admin");
 });

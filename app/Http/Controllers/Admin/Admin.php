@@ -52,6 +52,11 @@ class Admin extends Controller
         return 'username';
     }
 
+    public function loggedOut()
+    {
+        return 'success';
+    }
+
     /**
      * 认证成功返回的数据
      * @param Request $request
@@ -60,7 +65,7 @@ class Admin extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return 'success';
+        return $user;
     }
 
 
