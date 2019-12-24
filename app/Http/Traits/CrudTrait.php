@@ -6,11 +6,6 @@ use Illuminate\Http\Request;
 trait CrudTrait
 {
 
-
-    /**
-     * @var array
-     */
-    protected $searchFields = [];
     /**
      * @var Request
      */
@@ -26,10 +21,11 @@ trait CrudTrait
         $where = json_decode($request->get('where',false));
         $sort = json_decode($request->get('sort',false));
         $search = $request->get('search',false);
+        $searchFields = isset($this->searchFields)? $this->searchFields: [];
         $list = $this->model
             // 搜索
-            ->when(count($this->searchFields),function ($query) use ($search){
-                foreach ($this->searchFields as $field){
+            ->when(count($searchFields) && $search,function ($query) use ($searchFields,$search){
+                foreach ($searchFields as $field){
                     $query->where($field,'like','%'.$search.'%');
                 }
             })

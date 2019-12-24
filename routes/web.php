@@ -34,4 +34,6 @@ Route::prefix('admin')
         fastCrudRouter('active_codes', "Admin\ActiveCode");
         Route::post('active_codes/randGenerate/{number}', 'Admin\ActiveCode@randGenerate');
         Route::put('active_codes/release/{id}', 'Admin\ActiveCode@release');
+        fastCrudRouter('words','Admin\Word');
+        Route::post('/words/batchImport','Admin\Word@batchImport');
     });
