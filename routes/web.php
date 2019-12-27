@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 function fastCrudRouter($routerName, $controller)
 {
-    Route::get("$routerName/page/{page}/size/{size}", "$controller@index");
+    Route::get("$routerName", "$controller@index");
     Route::post($routerName, "$controller@create");
     Route::delete("$routerName/{id}", "$controller@delete");
     Route::put("$routerName/{id}", "$controller@edit");
@@ -35,5 +35,17 @@ Route::prefix('admin')
         Route::post('active_codes/randGenerate/{number}', 'Admin\ActiveCode@randGenerate');
         Route::put('active_codes/release/{id}', 'Admin\ActiveCode@release');
         fastCrudRouter('words','Admin\Word');
-        Route::post('/words/batchImport','Admin\Word@batchImport');
+        Route::post('words/batchImport','Admin\Word@batchImport');
+        fastCrudRouter('word_categories','Admin\WordCategory');
+        Route::get('word_categories/{id}/words','Admin\WordCategory@indexWord');
+        Route::post('word_categories/{id}/words','Admin\WordCategory@createWord');
     });
+
+
+Route::prefix('user')
+    ->group(function () {
+      Route::get('word_categories','User\WordCategory@index');
+      Route::get('word_categories/{id}/words','User\WordCategory@words');
+    });
+
+
