@@ -34,7 +34,7 @@ class WordCategory extends Controller
             return [];
         }
 
-        $list = $category->words()->get();
+        $list = $category->words()->where('status','normal')->get();
         return $list;
     }
 }
