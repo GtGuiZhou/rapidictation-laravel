@@ -34,18 +34,22 @@ Route::prefix('admin')
         fastCrudRouter('active_codes', "Admin\ActiveCode");
         Route::post('active_codes/randGenerate/{number}', 'Admin\ActiveCode@randGenerate');
         Route::put('active_codes/release/{id}', 'Admin\ActiveCode@release');
-        fastCrudRouter('words','Admin\Word');
-        Route::post('words/batchImport','Admin\Word@batchImport');
-        fastCrudRouter('word_categories','Admin\WordCategory');
-        Route::get('word_categories/{id}/words','Admin\WordCategory@indexWord');
-        Route::post('word_categories/{id}/words','Admin\WordCategory@createWord');
+        fastCrudRouter('words', 'Admin\Word');
+        Route::put('words/{id}/again_translation', 'Admin\Word@againTranslation');
+        Route::post('words/batchImport', 'Admin\Word@batchImport');
+        fastCrudRouter('word_categories', 'Admin\WordCategory');
+        Route::get('word_categories/{id}/words', 'Admin\WordCategory@indexWord');
+        Route::post('word_categories/{id}/words', 'Admin\WordCategory@createWord');
     });
 
 
 Route::prefix('user')
     ->group(function () {
-      Route::get('word_categories','User\WordCategory@index');
-      Route::get('word_categories/{id}/words','User\WordCategory@words');
+        Route::get('word_categories', 'User\WordCategory@index');
+        Route::get('word_categories/{id}/words', 'User\WordCategory@words');
+        Route::post('words', 'User\Word@create');
+        Route::post('login/{machine_code}', 'User\User@login');
+        Route::post('active', 'User\User@active');
     });
 
 

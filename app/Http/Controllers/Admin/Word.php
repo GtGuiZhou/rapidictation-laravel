@@ -45,6 +45,12 @@ class Word extends Controller
         }
     }
 
+    public function againTranslation(Request $request ,$id)
+    {
+        $this->model = $this->model->findOrFail($id);
+        $this->model->translation()->save();
+    }
+
 
 
 }

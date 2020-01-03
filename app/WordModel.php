@@ -4,6 +4,7 @@ namespace App;
 
 
 use App\Exceptions\InvalidRequestException;
+use App\Exceptions\ModelInternalException;
 use App\YouDao\Translation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class WordModel extends Model
                 $this->is_translation = 'yes';
                 $this->ts_info = $info;
                 if (!isset($deInfo['basic'])) {
-                    throw new InvalidRequestException('词义不存在，该单词可能不是一个正确的单词');
+                    throw new ModelInternalException('词义不存在，该单词可能不是一个正确的单词');
                 } else {
                     list($ukSpeechUrl,$usSpeechUrl) =   $ts->downloadSpeakFile($deInfo['basic']);
                     $this->uk_audio = $ukSpeechUrl;
@@ -42,7 +43,9 @@ class WordModel extends Model
                 }
             });
         } else{
-            throw new InvalidRequestException('翻译失败');
+            throw new ModelInternalException('翻译失败');
         }
+
+        return $this;
     }
 }
