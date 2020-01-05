@@ -3,7 +3,6 @@
 namespace App;
 
 
-use App\Exceptions\InvalidRequestException;
 use App\Exceptions\ModelInternalException;
 use App\YouDao\Translation;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +20,11 @@ class WordModel extends Model
     public function setWordAttribute($val)
     {
         $this->attributes['word'] = strtolower($val);
+    }
+
+    public function getUsAudioAttribute($val)
+    {
+        return 'test';
     }
 
 

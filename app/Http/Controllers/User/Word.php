@@ -35,4 +35,7 @@ class Word extends Controller
 
         return $wordModel;
     }
+
+
+
 } 
