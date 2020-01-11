@@ -22,14 +22,17 @@ class WordModel extends Model
         $this->attributes['word'] = strtolower($val);
     }
 
-    public function getUsAudioAttribute($val)
-    {
-        return 'test';
+    public function getUkAudioAttribute($val){
+        return url($val);
     }
 
+    public function getUsAudioAttribute($val){
+        return url($val);
+    }
 
     public function translation()
     {
+
         $ts = new Translation($this->word);
         $info = $ts->getWordInfo();
         $deInfo = json_decode($info, true);
@@ -37,14 +40,25 @@ class WordModel extends Model
         if ($deInfo['errorCode'] == '0') {
             DB::transaction(function () use ($ts, $deInfo, $info) {
                 $this->is_translation = 'yes';
-                $this->ts_info = $info;
                 if (!isset($deInfo['basic'])) {
-                    throw new ModelInternalException('词义不存在，该单词可能不是一个正确的单词');
-                } else {
-                    list($ukSpeechUrl,$usSpeechUrl) =   $ts->downloadSpeakFile($deInfo['basic']);
-                    $this->uk_audio = $ukSpeechUrl;
-                    $this->us_audio = $usSpeechUrl;
+                    $deInfo['basic'] = [
+                        'exam_type' => [],
+                        'us-phonetic' => '无',
+                        'uk-phonetic' => '无',
+                        "phonetic" => "无",
+                        "uk-speech" => $deInfo['speakUrl'],
+                        "us-speech" => $deInfo['speakUrl'],
+                        'explains' => $deInfo['translation']
+                    ];
                 }
+
+                if (!isset($deInfo['web'])) {
+                    $deInfo['web'] = [];
+                }
+                $this->ts_info = json_encode($deInfo);
+                list($ukSpeechUrl,$usSpeechUrl) =   $ts->downloadSpeakFile($deInfo['basic']);
+                $this->uk_audio = $ukSpeechUrl;
+                $this->us_audio = $usSpeechUrl;
             });
         } else{
             throw new ModelInternalException('翻译失败');

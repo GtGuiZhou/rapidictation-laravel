@@ -34,25 +34,7 @@ class WordObserve
 
     public function saving(WordModel $wordModel)
     {
-        $ts = new Translation($wordModel->word);
-        $info = $ts->getWordInfo();
-        $deInfo = json_decode($info, true);
-
-        if ($deInfo['errorCode'] == '0') {
-            DB::transaction(function () use ($wordModel,$ts, $deInfo, $info) {
-                $wordModel->is_translation = 'yes';
-                $wordModel->ts_info = $info;
-                if (!isset($deInfo['basic'])) {
-                    throw new InvalidRequestException('词义不存在，该单词可能不是一个正确的单词');
-                } else {
-                    list($ukSpeechUrl,$usSpeechUrl) =   $ts->downloadSpeakFile($deInfo['basic']);
-                    $wordModel->uk_audio = $ukSpeechUrl;
-                    $wordModel->us_audio = $usSpeechUrl;
-                }
-            });
-        } else{
-            throw new InvalidRequestException('翻译失败');
-        }
+       $wordModel->translation();
     }
 
     /**
